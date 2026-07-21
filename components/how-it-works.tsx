@@ -1,3 +1,6 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import { MessageCircle, PenTool, Rocket } from 'lucide-react'
 
 const steps = [
@@ -18,6 +21,19 @@ const steps = [
   },
 ]
 
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+      delay: i * 0.15,
+    },
+  }),
+}
+
 export function HowItWorks() {
   return (
     <section id="work" className="mx-auto w-full max-w-5xl px-6 pb-24 sm:pb-32">
@@ -32,8 +48,13 @@ export function HowItWorks() {
 
       <ol className="grid gap-6 sm:grid-cols-3">
         {steps.map((step, i) => (
-          <li
+          <motion.li
             key={step.title}
+            custom={i}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
             className="rounded-3xl border border-border bg-card/70 p-8 text-center backdrop-blur-sm transition-shadow hover:shadow-lg hover:shadow-primary/5"
           >
             <div className="mx-auto mb-6 flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-violet/15 to-brand-teal/15">
@@ -48,7 +69,7 @@ export function HowItWorks() {
             <p className="mt-2 text-pretty leading-relaxed text-muted-foreground">
               {step.description}
             </p>
-          </li>
+          </motion.li>
         ))}
       </ol>
     </section>
